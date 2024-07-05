@@ -1,0 +1,504 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    overflow-y: hidden;
+}
+
+/* Page font ----------------------------------------------------------------*/
+.kode-mono {
+    font-family: "Kode Mono", monospace;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* Background Pattern -------------------------------------------------------*/
+.background {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    background-color: #111111;
+    background-image: linear-gradient(
+      32deg,
+      rgba(8, 8, 8, 0.74) 30px,
+      transparent
+    );
+    background-size: 60px 60px;
+    background-position: -5px -5px;
+  }
+
+  .i-container {
+    position: relative;
+    top: 250px;
+    display: block;
+    text-align: center;
+    flex: 1;
+  }
+
+  /* Title glitch effect -----------------------------------------------------*/
+  .glitch {
+    position: relative;
+    font-size: 100px;
+    font-weight: 800;
+    line-height: 1.2;
+    color: #ffffff;
+    letter-spacing: 10px;
+    z-index: 1;
+    animation: shift 1s ease-in-out infinite alternate;
+    margin-bottom: 60px;
+  }
+  
+  .glitch:before,
+  .glitch:after {
+    display: block;
+    content: attr(data-glitch);
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0.8;
+  }
+  
+  .glitch:before {
+    animation: glitch 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+    color: #480083;
+    z-index: -1;
+  }
+  
+  .glitch:after {
+    animation: glitch 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse both infinite;
+    color: #4c85ff;
+    z-index: -2;
+  }
+  
+  @keyframes glitch {
+    0% {
+      transform: translate(0);
+    }
+  
+    20% {
+      transform: translate(-3px, 3px);
+    }
+  
+    40% {
+      transform: translate(-3px, -3px);
+    }
+  
+    60% {
+      transform: translate(3px, 3px);
+    }
+  
+    80% {
+      transform: translate(3px, -3px);
+    }
+  
+    to {
+      transform: translate(0);
+    }
+  }
+
+  /* buttons container */
+  .bs-container {
+    width: auto;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    gap: 50px;
+  }
+
+  .c-container {
+    width: auto;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    gap: 50px;
+    animation: fadeInUp 0.5s ease-in-out;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .p-difficulty {
+    text-align: center;
+  }
+  
+
+  /* button start-game -----------------------------------------------*/
+
+  .ui-btn {
+    --btn-default-bg: #010314;
+    --btn-padding: 15px 20px;
+    --btn-hover-bg: rgb(51, 51, 51);
+    --btn-transition: .3s;
+    --btn-letter-spacing: .1rem;
+    --btn-animation-duration: 1.2s;
+    --btn-shadow-color: rgba(0, 0, 0, 0.137);
+    --btn-shadow: 0 2px 10px 0 var(--btn-shadow-color);
+    --hover-btn-color: #7241FF;
+    --default-btn-color: #fff;
+    --font-size: 16px;
+    --font-weight: 600;
+    --font-family: Menlo,Roboto Mono,monospace;
+  
+  }
+
+  .ui-btn {
+    width: 250px;
+    box-sizing: border-box;
+    padding: var(--btn-padding);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--default-btn-color);
+    font: var(--font-weight) var(--font-size) var(--font-family);
+    background: var(--btn-default-bg);
+    cursor: pointer;
+    transition: var(--btn-transition);
+    overflow: hidden;
+    box-shadow: var(--btn-shadow);
+    border: 2px solid #2A2B3A;
+  }
+
+  
+  .ui-btn span {
+    letter-spacing: var(--btn-letter-spacing);
+    transition: var(--btn-transition);
+    box-sizing: border-box;
+    position: relative;
+    background: inherit;
+  }
+  
+  .ui-btn span::before {
+    box-sizing: border-box;
+    position: absolute;
+    content: "";
+    background: inherit;
+  }
+  
+  .ui-btn:hover, .ui-btn:focus {
+    background: var(--btn-default-bg);
+    box-shadow: 0px 0px 10px 0px rgba(119, 68, 255, 0.70);
+    border: 2px solid #7241FF;
+    ;
+  }
+  
+  .ui-btn:hover span, .ui-btn:focus span {
+    color: var(--hover-btn-color);
+  }
+  
+  .ui-btn:hover span::before, .ui-btn:focus span::before {
+    animation: chitchat linear both var(--btn-animation-duration);
+  }
+  
+  @keyframes chitchat {
+    0% {
+      content: "#";
+    }
+  
+    5% {
+      content: ".";
+    }
+  
+    10% {
+      content: "^{";
+    }
+  
+    15% {
+      content: "-!";
+    }
+  
+    20% {
+      content: "#$_";
+    }
+  
+    25% {
+      content: "№:0";
+    }
+  
+    30% {
+      content: "#{+.";
+    }
+  
+    35% {
+      content: "@}-?";
+    }
+  
+    40% {
+      content: "?{4@%";
+    }
+  
+    45% {
+      content: "=.,^!";
+    }
+  
+    50% {
+      content: "?2@%";
+    }
+  
+    55% {
+      content: "\;1}]";
+    }
+  
+    60% {
+      content: "?{%:%";
+      right: 0;
+    }
+  
+    65% {
+      content: "|{f[4";
+      right: 0;
+    }
+  
+    70% {
+      content: "{4%0%";
+      right: 0;
+    }
+  
+    75% {
+      content: "'1_0<";
+      right: 0;
+    }
+  
+    80% {
+      content: "{0%";
+      right: 0;
+    }
+  
+    85% {
+      content: "]>'";
+      right: 0;
+    }
+  
+    90% {
+      content: "4";
+      right: 0;
+    }
+  
+    95% {
+      content: "2";
+      right: 0;
+    }
+  
+    100% {
+      content: "";
+      right: 0;
+    }
+  }
+
+  /* Button instructions and animations */
+  .btn-instructions {
+    position: relative;
+    top: 30px;
+    left: 850px;
+    display: inline-block;
+    padding: 10px;
+    transition: transform 0.3s ease;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .btn-instructions:hover {
+    transform: scale(1.3);
+  }
+  
+  .icon-tabler {
+    vertical-align: middle;
+  }
+
+  /* Countdown game ----------------------------------------------*/
+  .hide {
+    display: none;
+  }
+  .show {
+    display: block;
+  }
+  .counter {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    display: none; 
+    color: white;
+  }
+  .counter.show {
+    display: block; 
+  }
+  .counter.hide {
+    transform: translate(-50%, -50%) scale(0);
+    animation: hide .2s ease-out;
+  }
+  @keyframes hide {
+    0% {
+      transform: translate(-50%, -50%) scale(1);
+    }
+    100% {
+      transform: translate(-50%, -50%) scale(0);
+    }
+  }
+  .final {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    color: white;
+  }
+  .final.show {
+    transform: translate(-50%, -50%) scale(1);
+    animation: show .3s ease-in;
+  }
+  @keyframes show {
+    0% {
+      transform: translate(-50%, -50%) scale(0);
+    }
+    80% {
+      transform: translate(-50%, -50%) scale(1.4);
+    }
+    100% {
+      transform: translate(-50%, -50%) scale(1);
+    }
+  }
+  .nums {
+    color: #ffffff;
+    position: relative;
+    font-size: 250px;
+    overflow: hidden;
+    width: 250px;
+    height: 250px;
+  }
+  .nums span {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(120deg);
+    transform-origin: bottom center;
+  }
+  .nums span.in {
+    transform: translate(-50%, -50%) rotate(0deg);
+    animation: goIn .5s ease-in-out;
+  }
+  .nums span.out {
+    animation: goOut .5s ease-in-out;
+  }
+  @keyframes goIn {
+    0% {
+      transform: translate(-50%, -50%) rotate(120deg);
+    }
+    30% {
+      transform: translate(-50%, -50%) rotate(-20deg);
+    }
+    60% {
+      transform: translate(-50%, -50%) rotate(10deg);
+    }
+    90%, 100% {
+      transform: translate(-50%, -50%) rotate(0deg);
+    }
+  }
+  @keyframes goOut {
+    0%, 30% {
+      transform: translate(-50%, -50%) rotate(0deg);
+    }
+    60% {
+      transform: translate(-50%, -50%) rotate(20deg);
+    }
+    100% {
+      transform: translate(-50%, -50%) rotate(-120deg);
+    }
+  }
+  h4 {
+    font-size: 50px;
+    margin: 5px;
+    text-transform: uppercase;
+    color: white;
+  }
+  .difficulty-buttons, .counter {
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  /* game base options -------------------------------------------------*/
+  .g-container {
+    position: relative;
+    display: block;
+    text-align: center;
+    flex: 1;
+    animation: fadeInUp 0.5s ease-in-out;
+    text-align: center;
+  }
+
+  #wordContainer {
+    max-width: 1500px;
+    height: auto;
+    margin: 0 auto;
+    border: 1px solid;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .word {
+    margin: 5px 10px; 
+    padding: 5px;
+    background-color: #f0f0f0;
+    border-radius: 3px;
+    display: flex;
+  }
+
+  .letter {
+    margin: 0 2px;
+    padding: 2px;
+    font-size: 20px;
+  }
+  
+
+
+  /* footer options ----------------------------------------------------*/
+  footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 60px; /* Adjust the height as needed */
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .footer-content {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .icon {
+    position: relative;
+    justify-content: center;
+    top: 10px;
+  }
+  
+  .icon svg {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .tooltip {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+
