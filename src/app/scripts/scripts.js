@@ -45,25 +45,30 @@ document.addEventListener('DOMContentLoaded', function() {
 
               //Initialize count of word depending of the selected difficulty
               let numberOfWords = 0; 
+              let gameDuration = 0;
 
               easyButton.addEventListener('click', function() {
-                  startCountdown();
                   numberOfWords = Math.floor(Math.random() * (7 - 5 + 1) + 5); 
                   fetchWords(numberOfWords);
+                  gameDuration = 20; 
+                  startCountdown();
               });
 
               mediumButton.addEventListener('click', function() {
-                  startCountdown();
                   numberOfWords = Math.floor(Math.random() * (10 - 8 + 1) + 8); 
                   fetchWords(numberOfWords);
+                  gameDuration = 17; 
+                  startCountdown();
               });
 
               hardButton.addEventListener('click', function() {
-                  startCountdown();
                   numberOfWords = Math.floor(Math.random() * (15 - 11 + 1) + 11); 
                   fetchWords(numberOfWords);
+                  gameDuration = 14; 
+                  startCountdown();
               });
 
+              // countdown animation 
               function startCountdown() {
                   const title = document.querySelector('.glitch');
                   title.classList.add('hide');
@@ -72,6 +77,53 @@ document.addEventListener('DOMContentLoaded', function() {
                   counter.classList.add('show');
                   runAnimation();
               }
+
+              
+              const nums = document.querySelectorAll('.nums span');
+              const counter = document.querySelector('.counter');
+              const finalMessageCountdown = document.querySelector('.final');
+
+              function runAnimation() {
+                  nums.forEach((num, idx) => {
+                      const penultimate = nums.length - 1;
+                      num.addEventListener('animationend', (e) => {
+                          if (e.animationName === 'goIn' && idx !== penultimate) {
+                              num.classList.remove('in');
+                              num.classList.add('out');
+                          } else if (e.animationName === 'goOut' && num.nextElementSibling) {
+                              num.nextElementSibling.classList.add('in');
+                          } else {
+                              counter.classList.add('hide');
+                              finalMessageCountdown.classList.add('show');
+                              setTimeout(function() {
+                                  counter.remove();
+                                  finalMessageCountdown.remove();
+                                  timer();
+                                  
+                              }, 600);
+                              setTimeout(function() {
+                                  gameBase.classList.add('show');
+                              }, 800);
+                          }
+                      });
+                  });
+              }
+
+              // In game countdown
+              const countdownElement = document.getElementById('countdown');
+
+              function updateCountdown() {
+                countdownElement.innerText = gameDuration;
+                gameDuration--;
+
+                if (gameDuration < 0) {
+                  clearInterval(countdownInterval)
+                }
+              }
+
+              setTimeout(() => {
+                countdownInterval = setInterval(updateCountdown, 1000);
+            }, 1000);
 
               //Initialize matchScore for the match from the user (not depend from the difficulty).
               let matchScore = 0;
@@ -82,7 +134,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log('Words:', numberOfWords)
                 const apiUrl = `https://random-word-form.herokuapp.com/random/noun/a?count=${numberOfWords}`;
                 const apiUrlBackup = `https://random-word-api.herokuapp.com/word?length=${numberOfWords}`;
-                
+
                 // Fetch words from the API
                 fetch(apiUrl)
                   .then(response => {
@@ -115,7 +167,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
               function displayWords(words) {
                 wordContainer.innerHTML = '';
-
                 words.forEach(word => {
                   const wordElement = document.createElement('div');
                   wordElement.className = 'word';
@@ -196,57 +247,4 @@ document.addEventListener('DOMContentLoaded', function() {
       }
   });
 
-
-  const nums = document.querySelectorAll('.nums span');
-  const counter = document.querySelector('.counter');
-  const finalMessageCountdown = document.querySelector('.final');
-
-  function runAnimation() {
-      nums.forEach((num, idx) => {
-          const penultimate = nums.length - 1;
-          num.addEventListener('animationend', (e) => {
-              if (e.animationName === 'goIn' && idx !== penultimate) {
-                  num.classList.remove('in');
-                  num.classList.add('out');
-              } else if (e.animationName === 'goOut' && num.nextElementSibling) {
-                  num.nextElementSibling.classList.add('in');
-              } else {
-                  counter.classList.add('hide');
-                  finalMessageCountdown.classList.add('show');
-                  setTimeout(function() {
-                      counter.remove();
-                      finalMessageCountdown.remove();
-                  }, 600);
-                  setTimeout(function() {
-                      gameBase.classList.add('show');
-                  }, 800);
-              }
-          });
-      });
-  }
-
-  let currentWordIndex = 0;
-  let currentLetterIndex = 0;
-
-  function handleKeydown(event) {
-      const words = document.querySelectorAll('.word');
-      if (currentWordIndex >= words.length) return;
-      
-      const currentWord = words[currentWordIndex];
-      const letters = currentWord.querySelectorAll('.letter');
-
-      if (currentLetterIndex < letters.length) {
-          const currentLetterElement = letters[currentLetterIndex];
-          
-          if (event.key === currentLetterElement.textContent) {
-              currentLetterElement.style.color = 'green';
-              currentLetterIndex++;
-
-              if (currentLetterIndex === letters.length) {
-                  currentWordIndex++;
-                  currentLetterIndex = 0;
-              }
-          }
-      }
-  }
 });
