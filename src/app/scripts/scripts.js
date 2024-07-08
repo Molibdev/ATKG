@@ -45,27 +45,29 @@ document.addEventListener('DOMContentLoaded', function() {
 
               //Initialize count of word depending of the selected difficulty
               let numberOfWords = 0; 
-              let gameDuration = 0;
 
               easyButton.addEventListener('click', function() {
                   numberOfWords = Math.floor(Math.random() * (7 - 5 + 1) + 5); 
                   fetchWords(numberOfWords);
-                  gameDuration = 20; 
+                  initialGameDuration = 20; 
                   startCountdown();
+                  startCountdown2(initialGameDuration);
               });
 
               mediumButton.addEventListener('click', function() {
                   numberOfWords = Math.floor(Math.random() * (10 - 8 + 1) + 8); 
                   fetchWords(numberOfWords);
-                  gameDuration = 17; 
+                  initialGameDuration = 17; 
                   startCountdown();
+                  startCountdown2(initialGameDuration);
               });
 
               hardButton.addEventListener('click', function() {
                   numberOfWords = Math.floor(Math.random() * (15 - 11 + 1) + 11); 
                   fetchWords(numberOfWords);
-                  gameDuration = 14; 
+                  initialGameDuration = 14; 
                   startCountdown();
+                  startCountdown2(initialGameDuration);
               });
 
               // countdown animation 
@@ -76,6 +78,7 @@ document.addEventListener('DOMContentLoaded', function() {
                   const counter = document.querySelector('.counter');
                   counter.classList.add('show');
                   runAnimation();
+                  startCountdown2();
               }
 
               
@@ -98,8 +101,6 @@ document.addEventListener('DOMContentLoaded', function() {
                               setTimeout(function() {
                                   counter.remove();
                                   finalMessageCountdown.remove();
-                                  timer();
-                                  
                               }, 600);
                               setTimeout(function() {
                                   gameBase.classList.add('show');
@@ -109,21 +110,6 @@ document.addEventListener('DOMContentLoaded', function() {
                   });
               }
 
-              // In game countdown
-              const countdownElement = document.getElementById('countdown');
-
-              function updateCountdown() {
-                countdownElement.innerText = gameDuration;
-                gameDuration--;
-
-                if (gameDuration < 0) {
-                  clearInterval(countdownInterval)
-                }
-              }
-
-              setTimeout(() => {
-                countdownInterval = setInterval(updateCountdown, 1000);
-            }, 1000);
 
               //Initialize matchScore for the match from the user (not depend from the difficulty).
               let matchScore = 0;
@@ -215,11 +201,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
               }
 
+
+
+              //Add 100 points to the user and reset countdown in game
               function updateScore() {
                 matchScore += 100;
                 matchScoreElement.textContent = `Score: ${matchScore}`;
                 console.log(`Score updated: ${matchScore}`); 
                 fetchWords(numberOfWords);
+                startCountdown(); 
                 console.log('Number of words:', numberOfWords);
               }
 
