@@ -458,7 +458,18 @@ body {
     padding: 2px;
     font-size: 20px;
   }
+
+  .green {
+    color: green;
+  }
+
+  .m-score {
+    color: white;
+    padding: 10px;
+    font-size: 30px;
+  }
   
+
 
 
   /* footer options ----------------------------------------------------*/
