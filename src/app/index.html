@@ -59,11 +59,23 @@
                 <h1 style="color: white; font-size: 90px;">BEGIN!</h1>
             </div>
             <!-- game base (start game)-->
-            <div id="gameBase" style="border: 1px solid;">
-                <div id="matchScore" class="m-score">Score: 0</div>
+            <div id="gameBase" class="g-base">
+                <div id="gameCountdown" class="g-countdown"></div>
                 <div id="wordContainer"></div>
-                <div id="countdown" style="color: white;"></div>
-           </div>
+                <div id="matchScore" class="m-score">Score: 0</div>
+            </div>
+            <div class="go-container hide">
+                <p id="gameOver" class="go">GAME OVER</p>
+                <div style="display: flex;">
+                    <button id="btnRegister" id="register" class="ui-btn" style="margin-right: 5px;">
+                        <span>Register your record!</span>
+                    </button>
+                    <button id="menu" id="register" class="ui-btn">
+                        <span>Main menu</span>
+                    </button>
+                </div>
+            </div>
+            
     </main>
     
     <footer>

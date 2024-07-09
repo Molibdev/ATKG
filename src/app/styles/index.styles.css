@@ -153,6 +153,9 @@ body {
   }
 
   .ui-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 250px;
     box-sizing: border-box;
     padding: var(--btn-padding);
@@ -298,8 +301,9 @@ body {
   /* Button instructions and animations */
   .btn-instructions {
     position: relative;
-    top: 30px;
-    left: 850px;
+    top: 5vh;
+    left: 41vw;
+    transform: translateX(-50%);
     display: inline-block;
     padding: 10px;
     transition: transform 0.3s ease;
@@ -308,7 +312,7 @@ body {
   }
   
   .btn-instructions:hover {
-    transform: scale(1.3);
+    transform: translateX(-50%) scale(1.3);
   }
   
   .icon-tabler {
@@ -318,9 +322,15 @@ body {
   /* Countdown game ----------------------------------------------*/
   .hide {
     display: none;
+    transition: opacity 0.3s ease-out; 
+    pointer-events: none;
   }
+
   .show {
+    opacity: 1; 
+    transition: opacity 0.3s ease-in; 
     display: block;
+    pointer-events: auto; 
   }
   .counter {
     position: fixed;
@@ -436,21 +446,27 @@ body {
     text-align: center;
   }
 
+  .g-base {
+    position: relative;
+    bottom: 50px;
+  }
+
   #wordContainer {
+    position: relative;
     max-width: 1500px;
     height: auto;
     margin: 0 auto;
-    border: 1px solid;
     display: flex;
     flex-wrap: wrap;
   }
 
   .word {
     margin: 5px 10px; 
-    padding: 5px;
-    background-color: #f0f0f0;
-    border-radius: 3px;
+    padding: 10px;
+    background-color: white;
+    border-radius: 2px;
     display: flex;
+    text-align: center;
   }
 
   .letter {
@@ -461,13 +477,42 @@ body {
 
   .green {
     color: green;
+    /* animation here */
   }
 
   .m-score {
     color: white;
     padding: 10px;
     font-size: 30px;
+    padding: 20px;
   }
+
+  .g-countdown {
+    text-align: center;
+    font-size: 50px;
+    color: white;
+    padding: 20px;
+  }
+
+  /* Game over options */
+  .go-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    bottom: 60px;
+  }
+
+  .go {
+    font-size: 90px;
+    text-align: center;
+    margin-bottom: 20px;
+    color: white;
+  }
+
+  
   
 
 

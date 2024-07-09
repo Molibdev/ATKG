@@ -3,7 +3,14 @@ document.addEventListener('DOMContentLoaded', function() {
   const scoresTables = document.getElementById('scoreTables');
   const gameBase = document.getElementById('gameBase');
   const wordContainer = document.getElementById('wordContainer');
+  const gameCountdown = document.getElementById('gameCountdown');
+  const gameOver = document.getElementById('gameOver');
+  const buttonRegiser = document.getElementById('btnRegister');
+  const buttonReturn = document.getElementById('menu');
   gameBase.classList.add('hide');
+  gameOver.classList.add('hide');
+  buttonRegiser.classList.add('hide')
+  buttonReturn.classList.add('hide');
 
   scoresTables.addEventListener('click', function() {
       startNow.remove();
@@ -43,15 +50,16 @@ document.addEventListener('DOMContentLoaded', function() {
               hardButton.classList.add('ui-btn');
               btnContainer.appendChild(hardButton);
 
-              //Initialize count of word depending of the selected difficulty
+              // Initialize count of word depending on the selected difficulty
               let numberOfWords = 0; 
+              let countdownInterval;
 
               easyButton.addEventListener('click', function() {
                   numberOfWords = Math.floor(Math.random() * (7 - 5 + 1) + 5); 
                   fetchWords(numberOfWords);
                   initialGameDuration = 20; 
                   startCountdown();
-                  startCountdown2(initialGameDuration);
+                  startGameCountdown(initialGameDuration);
               });
 
               mediumButton.addEventListener('click', function() {
@@ -59,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
                   fetchWords(numberOfWords);
                   initialGameDuration = 17; 
                   startCountdown();
-                  startCountdown2(initialGameDuration);
+                  startGameCountdown(initialGameDuration);
               });
 
               hardButton.addEventListener('click', function() {
@@ -67,10 +75,10 @@ document.addEventListener('DOMContentLoaded', function() {
                   fetchWords(numberOfWords);
                   initialGameDuration = 14; 
                   startCountdown();
-                  startCountdown2(initialGameDuration);
+                  startGameCountdown(initialGameDuration);
               });
 
-              // countdown animation 
+              // Countdown animation 
               function startCountdown() {
                   const title = document.querySelector('.glitch');
                   title.classList.add('hide');
@@ -78,10 +86,8 @@ document.addEventListener('DOMContentLoaded', function() {
                   const counter = document.querySelector('.counter');
                   counter.classList.add('show');
                   runAnimation();
-                  startCountdown2();
               }
 
-              
               const nums = document.querySelectorAll('.nums span');
               const counter = document.querySelector('.counter');
               const finalMessageCountdown = document.querySelector('.final');
@@ -110,127 +116,152 @@ document.addEventListener('DOMContentLoaded', function() {
                   });
               }
 
-
-              //Initialize matchScore for the match from the user (not depend from the difficulty).
+              // Initialize matchScore for the match from the user (not depend from the difficulty).
               let matchScore = 0;
               const matchScoreElement = document.getElementById('matchScore');
 
               // Fetch words from the API
               function fetchWords(numberOfWords) {
-                console.log('Words:', numberOfWords)
-                const apiUrl = `https://random-word-form.herokuapp.com/random/noun/a?count=${numberOfWords}`;
-                const apiUrlBackup = `https://random-word-api.herokuapp.com/word?length=${numberOfWords}`;
+                  console.log('Words:', numberOfWords);
+                  const apiUrl = `https://random-word-form.herokuapp.com/random/noun/a?count=${numberOfWords}`;
+                  const apiUrlBackup = `https://random-word-api.herokuapp.com/word?length=${numberOfWords}`;
 
-                // Fetch words from the API
-                fetch(apiUrl)
+                  // Fetch words from the API
+                  fetch(apiUrl)
                   .then(response => {
-                    if (!response.ok) {
-                      throw new Error(`Error: ${response.status}`);
-                    }
-                    return response.json();
+                      if (!response.ok) {
+                          throw new Error(`Error: ${response.status}`);
+                      }
+                      return response.json();
                   })
                   .then(data => {
-                    displayWords(data);
+                      displayWords(data);
                   })
                   .catch(error => {
-                    console.error('Error fetching words from the primary API:', error);
-                    fetch(apiUrlBackup)
+                      console.error('Error fetching words from the primary API:', error);
+                      fetch(apiUrlBackup)
                       .then(response => {
-                        if (!response.ok) {
-                          throw new Error(`Error: ${response.status}`);
-                        }
-                        return response.json();
+                          if (!response.ok) {
+                              throw new Error(`Error: ${response.status}`);
+                          }
+                          return response.json();
                       })
                       .then(data => {
-                        displayWords(data);
+                          displayWords(data);
                       })
                       .catch(error => {
-                        console.error('Error fetching words from the backup API:', error);
-                        wordContainer.innerHTML = 'API error, please try another time';
+                          console.error('Error fetching words from the backup API:', error);
+                          wordContainer.innerHTML = 'API error, please try another time';
                       });
                   });
               }
 
               function displayWords(words) {
-                wordContainer.innerHTML = '';
-                words.forEach(word => {
-                  const wordElement = document.createElement('div');
-                  wordElement.className = 'word';
-                  
-                  word.split('').forEach(letter => {
-                    const letterElement = document.createElement('span');
-                    letterElement.textContent = letter;
-                    letterElement.className = 'letter';
-                    wordElement.appendChild(letterElement);
+                  wordContainer.innerHTML = '';
+                  words.forEach(word => {
+                      const wordElement = document.createElement('div');
+                      wordElement.className = 'word';
+                      
+                      word.split('').forEach(letter => {
+                          const letterElement = document.createElement('span');
+                          letterElement.textContent = letter;
+                          letterElement.className = 'letter';
+                          wordElement.appendChild(letterElement);
+                      });
+
+                      wordContainer.appendChild(wordElement);
                   });
 
-                  wordContainer.appendChild(wordElement);
-                });
-
-                wordContainer.classList.add('show');
-                document.addEventListener('keydown', handleKeydown);
+                  wordContainer.classList.add('show');
+                  document.addEventListener('keydown', handleKeydown);
               }
 
               function handleKeydown(event) {
-                const key = event.key;
-                const words = wordContainer.querySelectorAll('.word');
-                let allWordsCompleted = true;
-                
-                for (let word of words) {
-                  const letters = word.querySelectorAll('.letter');
-                  let wordCompleted = true;
+                  const key = event.key;
+                  const words = wordContainer.querySelectorAll('.word');
+                  let allWordsCompleted = true;
                   
-                  for (let letter of letters) {
-                    if (!letter.classList.contains('green')) {
-                      if (letter.textContent === key) {
-                        letter.classList.add('green');
-                      } else {
-                        wordCompleted = false;
+                  for (let word of words) {
+                      const letters = word.querySelectorAll('.letter');
+                      let wordCompleted = true;
+                      
+                      for (let letter of letters) {
+                          if (!letter.classList.contains('green')) {
+                              if (letter.textContent === key) {
+                                  letter.classList.add('green');
+                              } else {
+                                  wordCompleted = false;
+                              }
+                              break;
+                          }
                       }
-                      break;
-                    }
+                      
+                      if (!wordCompleted) {
+                          allWordsCompleted = false;
+                      }
                   }
-                  
-                  if (!wordCompleted) {
-                    allWordsCompleted = false;
-                  }
-                }
 
-                if (allWordsCompleted) {
-                  checkParagraphCompletion();
-                }
+                  if (allWordsCompleted) {
+                      checkParagraphCompletion();
+                  }
               }
 
-
-
-              //Add 100 points to the user and reset countdown in game
+              // Add 100 points to the user and reset countdown in game
               function updateScore() {
-                matchScore += 100;
-                matchScoreElement.textContent = `Score: ${matchScore}`;
-                console.log(`Score updated: ${matchScore}`); 
-                fetchWords(numberOfWords);
-                startCountdown(); 
-                console.log('Number of words:', numberOfWords);
+                  matchScore += 100;
+                  matchScoreElement.textContent = `Score: ${matchScore}`;
+                  console.log(`Score updated: ${matchScore}`); 
+                  fetchWords(numberOfWords);
+                  startGameCountdown(initialGameDuration);
+                  console.log('Number of words:', numberOfWords);
               }
 
               function checkParagraphCompletion() {
-                const words = wordContainer.querySelectorAll('.word');
-                let allGreen = true;
+                  const words = wordContainer.querySelectorAll('.word');
+                  let allGreen = true;
 
-                words.forEach(word => {
-                  const letters = word.querySelectorAll('.letter');
-                  const wordAllGreen = Array.from(letters).every(letter => letter.classList.contains('green'));
-                  if (!wordAllGreen) {
-                    allGreen = false;
+                  words.forEach(word => {
+                      const letters = word.querySelectorAll('.letter');
+                      const wordAllGreen = Array.from(letters).every(letter => letter.classList.contains('green'));
+                      if (!wordAllGreen) {
+                          allGreen = false;
+                      }
+                  });
+
+                  if (allGreen) {
+                      console.log('All words are completed, updating score.'); 
+                      updateScore();
+                  } else {
+                      console.log('Not all words are completed.'); 
                   }
-                });
+              }
 
-                if (allGreen) {
-                  console.log('All words are completed, updating score.'); 
-                  updateScore();
-                } else {
-                  console.log('Not all words are completed.'); 
-                }
+              // Start game countdown
+              function startGameCountdown(duration) {
+                setTimeout(function() {
+                  clearInterval(countdownInterval);
+                  gameCountdown.classList.remove('hide');
+                  gameCountdown.textContent = `Time left: ${duration}`;
+                  
+                  countdownInterval = setInterval(function() {
+                      duration--;
+                      gameCountdown.textContent = `Time left: ${duration}`;
+
+                      if (duration <= 0) {
+                          clearInterval(countdownInterval);
+                          gameCountdown.textContent = 'Time\'s up!';
+                          setTimeout(function() {
+                            gameCountdown.classList.add('hide');
+                            gameBase.classList.remove('show');
+                            matchScoreElement.classList.add('hide');
+                            gameOver.classList.remove('hide');
+                            gameOver.classList.add('show');
+                            buttonRegiser.classList.add('show');
+                            buttonReturn.classList.add('show');
+                        }, 1000);
+                      }
+                  }, 1000);
+                },3000)
               }
 
           }, 200);
