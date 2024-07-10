@@ -75,8 +75,62 @@
                     </button>
                 </div>
             </div>
-            
+            <div class="t-container">
+                <table id="dataTable">
+                    <thead>
+                        <tr>
+                            <th colspan="2" class="header-main">Easy <span><img src="../public/icon/bronze-medal-svgrepo-com.svg" alt="" style="width: 20px; transform: translateX(5px) translateY(5px);"></span></th>
+                        </tr>
+                        <tr>
+                            <th class="header-sub">Users</th>
+                            <th class="header-sub">Scores</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>User 1</td>
+                            <td>100</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table id="dataTable2">
+                    <thead>
+                        <tr>
+                            <th colspan="2" class="header-main">Medium <span><img src="../public/icon/silver-medal-svgrepo-com.svg" alt="" style="width: 20px; transform: translateX(5px) translateY(5px);"></span></th>
+                        </tr>
+                        <tr>
+                            <th class="header-sub">Users</th>
+                            <th class="header-sub">Scores</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>User 1</td>
+                            <td>100</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table id="dataTable3">
+                    <thead>
+                        <tr>
+                            <th colspan="2" class="header-main">Hard <span><img src="../public/icon/gold-medal-svgrepo-com.svg" alt="" style="width: 20px; transform: translateX(5px) translateY(5px);"></span></th>
+                        </tr>
+                        <tr>
+                            <th class="header-sub">Users</th>
+                            <th class="header-sub">Scores</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>User 1</td>
+                            <td>100</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
     </main>
+
+
     
     <footer>
         <div class="footer-content">
@@ -116,6 +170,11 @@
             document.body.removeChild(icon.tooltip);
           });
         });
+      </script>
+      <script>
+        function showTable() {
+            document.getElementById('dataTable').style.display = 'table';
+        }
       </script>
 </body>
 </html>

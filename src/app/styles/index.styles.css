@@ -4,6 +4,7 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
+    width: auto;
     overflow-y: hidden;
 }
 
@@ -510,6 +511,65 @@ body {
     text-align: center;
     margin-bottom: 20px;
     color: white;
+  }
+
+  /* Tables */
+  .t-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    color: #7241FF;
+    gap: 10px;
+    /* flex-direction: column; AGREGAR EN RESPONSIVE */
+  }
+
+    table {
+        border-collapse: collapse;
+        width: 60%;
+        max-width: 600px;
+        background-color: #1a1a1a;
+        box-shadow: 0 0 15px #010314;
+        display: none;
+        animation: fadeInUp 0.5s ease-in-out forwards; 
+    }
+
+    th, td {
+        border: 1px solid #7241FF;
+        padding: 15px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #111111;
+    }
+
+    .easy-col {
+        background-color: #262626;
+    }
+
+    .header-main {
+        background-color: #7241FF;
+        color: #0d0d0d;
+        text-align: center;
+    }
+
+    .header-sub {
+        text-align: center;
+        color: #7241FF;
+    }
+
+    @keyframes fadeInUp {
+      0% {
+          opacity: 0;
+          transform: translateY(20px);
+      }
+      100% {
+          opacity: 1;
+          transform: translateY(0);
+      }
   }
 
   

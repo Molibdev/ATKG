@@ -1,4 +1,6 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {  
+
+  //Define the elements from the id in the HTML to callback here.
   const startNow = document.getElementById('startNowButton');
   const scoresTables = document.getElementById('scoreTables');
   const gameBase = document.getElementById('gameBase');
@@ -7,16 +9,26 @@ document.addEventListener('DOMContentLoaded', function() {
   const gameOver = document.getElementById('gameOver');
   const buttonRegiser = document.getElementById('btnRegister');
   const buttonReturn = document.getElementById('menu');
+  const title = document.querySelector('.glitch');
+  const dataTable = document.getElementById('dataTable');
+  const dataTable2 = document.getElementById('dataTable2');
+  const dataTable3 = document.getElementById('dataTable3');
+
+  //Hide others components we dont gonna use in the beginning of the cycle.
   gameBase.classList.add('hide');
   gameOver.classList.add('hide');
   buttonRegiser.classList.add('hide')
   buttonReturn.classList.add('hide');
 
+  //Score tables of the players
   scoresTables.addEventListener('click', function() {
       startNow.remove();
       scoresTables.remove();
-      // Aquí implementa las funciones para las tablas de puntuación.
+      dataTable.style.display = 'table';
+      dataTable2.style.display = 'table';
+      dataTable3.style.display = 'table';
   });
+
 
   startNow.addEventListener('click', function() {
       startNow.remove();
@@ -78,9 +90,8 @@ document.addEventListener('DOMContentLoaded', function() {
                   startGameCountdown(initialGameDuration);
               });
 
-              // Countdown animation 
+              // Countdown game animation 
               function startCountdown() {
-                  const title = document.querySelector('.glitch');
                   title.classList.add('hide');
                   difficultySelection.remove();
                   const counter = document.querySelector('.counter');
@@ -156,6 +167,7 @@ document.addEventListener('DOMContentLoaded', function() {
                   });
               }
 
+              //Display de the word in the HTML
               function displayWords(words) {
                   wordContainer.innerHTML = '';
                   words.forEach(word => {
@@ -176,6 +188,7 @@ document.addEventListener('DOMContentLoaded', function() {
                   document.addEventListener('keydown', handleKeydown);
               }
 
+              //Take the player keydown, use this function for make the green words too
               function handleKeydown(event) {
                   const key = event.key;
                   const words = wordContainer.querySelectorAll('.word');
@@ -206,7 +219,7 @@ document.addEventListener('DOMContentLoaded', function() {
                   }
               }
 
-              // Add 100 points to the user and reset countdown in game
+              // Add 100 points to the user and reset countdown in game, and reset the countdown, take the score to the other game too.
               function updateScore() {
                   matchScore += 100;
                   matchScoreElement.textContent = `Score: ${matchScore}`;
@@ -216,6 +229,7 @@ document.addEventListener('DOMContentLoaded', function() {
                   console.log('Number of words:', numberOfWords);
               }
 
+              //Check the paragraph if it's completed or not, if it's not dont finish and dont get points.
               function checkParagraphCompletion() {
                   const words = wordContainer.querySelectorAll('.word');
                   let allGreen = true;
