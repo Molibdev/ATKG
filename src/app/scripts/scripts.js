@@ -336,6 +336,69 @@ document.addEventListener('DOMContentLoaded', function() {
       }
   });
 
-  
 
+  //User list fetch Users (back)
+//   async function fetchUsers() {
+//     const response = await fetch('http://localhost:3000/api/users');
+//     const data = await response.json();
+//     const usersList = document.getElementById('users-list');
+//     usersList.innerHTML = '';
+//     data.data.forEach(user => {
+//         const li = document.createElement('li')
+//         li.textContent = `${user.user} - ${user.score}`
+//         usersList.appendChild(li);
+//     });
+//   }
+
+    async function fetchUsers() {
+        try {
+            const response = await fetch('http://localhost:3000/api/users');
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            const usersTableBody = document.getElementById('users-table-body');
+            usersTableBody.innerHTML = ''; // Limpiamos el contenido existente de la tabla
+
+            data.data.forEach(user => {
+                const row = document.createElement('tr');
+                const userNameCell = document.createElement('td');
+                const scoreCell = document.createElement('td');
+
+                userNameCell.textContent = user.user;
+                scoreCell.textContent = user.score;
+
+                row.appendChild(userNameCell);
+                row.appendChild(scoreCell);
+                usersTableBody.appendChild(row);
+            });
+        } catch (error) {
+            console.error('Fetch error:', error);
+        }
+    }
+
+
+  async function addUser() {
+    const userName = document.getElementById('user-input').value;
+    const userScore = document.getElementById('score-input').value;
+    const userDifficulty = document.getElementById('difficulty-input').value;
+    if (userName.trim() === '' || userScore.trim() === '' || userDifficulty.trim() === '') return;
+
+    await fetch('http://localhost:3000/api/users', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ user: userName, score: parseInt(userScore, 10), difficulty: parseInt(userDifficulty, 10) })
+    });
+
+    document.getElementById('user-input').value = '';
+    document.getElementById('score-input').value = '';
+    document.getElementById('difficulty-input').value = '';
+    fetchUsers();
+  }
+
+  document.getElementById('add-user-btn').addEventListener('click', addUser);
+
+  fetchUsers();
 });
