@@ -8,6 +8,8 @@ document.addEventListener('DOMContentLoaded', function() {
   const gameCountdown = document.getElementById('gameCountdown');
   const gameOver = document.getElementById('gameOver');
   const buttonRegiser = document.getElementById('btnRegister');
+  const buttonHelp = document.getElementById('buttonHelp');
+  const buttonInfo = document.getElementById('buttonInfo');
   const buttonReturn = document.getElementById('menu');
   const title = document.querySelector('.glitch');
   const dataTable = document.getElementById('dataTable');
@@ -29,7 +31,59 @@ document.addEventListener('DOMContentLoaded', function() {
       dataTable3.style.display = 'table';
   });
 
+  //Modals functions
+        // Obtener todos los elementos necesarios
+        var modals = {
+            register: document.getElementById("RecordRegister"),
+            help: document.getElementById("help"),
+            info: document.getElementById("info")
+        };
 
+        var btns = {
+            register: document.getElementById("btnRegister"),
+            help: document.getElementById("btnHelp"),
+            info: document.getElementById("btnInfo")
+        };
+
+        var closeButtons = document.getElementsByClassName("close");
+
+        // Función para abrir un modal específico
+        function openModal(modal) {
+            modal.style.display = "block";
+        }
+
+        // Función para cerrar un modal específico
+        function closeModal(modal) {
+            modal.style.display = "none";
+        }
+
+        // Asignar eventos de clic a los botones de abrir modal
+        btns.register.onclick = function() {
+            openModal(modals.register);
+        }
+        btns.help.onclick = function() {
+            openModal(modals.help);
+        }
+        btns.info.onclick = function() {
+            openModal(modals.info);
+        }
+
+        // Asignar eventos de clic a los botones de cerrar modal
+        for (var i = 0; i < closeButtons.length; i++) {
+            closeButtons[i].onclick = function() {
+                closeModal(this.parentElement.parentElement);
+            }
+        }
+
+        // Cerrar el modal cuando el usuario hace clic fuera del modal
+        window.onclick = function(event) {
+            if (event.target.className === "modal") {
+                closeModal(event.target);
+            }
+        }
+
+
+  //Game core functions
   startNow.addEventListener('click', function() {
       startNow.remove();
       scoresTables.remove();
@@ -69,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function() {
               easyButton.addEventListener('click', function() {
                   numberOfWords = Math.floor(Math.random() * (7 - 5 + 1) + 5); 
                   fetchWords(numberOfWords);
-                  initialGameDuration = 20; 
+                  initialGameDuration = 6; 
                   startCountdown();
                   startGameCountdown(initialGameDuration);
               });
@@ -77,7 +131,7 @@ document.addEventListener('DOMContentLoaded', function() {
               mediumButton.addEventListener('click', function() {
                   numberOfWords = Math.floor(Math.random() * (10 - 8 + 1) + 8); 
                   fetchWords(numberOfWords);
-                  initialGameDuration = 17; 
+                  initialGameDuration = 21; 
                   startCountdown();
                   startGameCountdown(initialGameDuration);
               });
@@ -85,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function() {
               hardButton.addEventListener('click', function() {
                   numberOfWords = Math.floor(Math.random() * (15 - 11 + 1) + 11); 
                   fetchWords(numberOfWords);
-                  initialGameDuration = 14; 
+                  initialGameDuration = 18; 
                   startCountdown();
                   startGameCountdown(initialGameDuration);
               });
@@ -275,11 +329,13 @@ document.addEventListener('DOMContentLoaded', function() {
                         }, 1000);
                       }
                   }, 1000);
-                },3000)
+                })
               }
 
           }, 200);
       }
   });
+
+  
 
 });

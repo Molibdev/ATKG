@@ -572,7 +572,88 @@ body {
       }
   }
 
-  
+  /* Modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgb(0,0,0);
+      background-color: rgba(0,0,0,0.4);
+  }
+
+  .modal-content {
+      background-color: #111111;
+      margin: 10% auto;
+      padding: 20px;
+      border: 1px solid #7241FF;
+      border-radius: 10px;
+      width: 80%;
+      max-width: 700px;
+      position: relative;
+      overflow: hidden;
+  }
+
+  .close {
+      color: #7241FF;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      cursor: pointer;
+  }
+
+  .close:hover,
+  .close:focus {
+      color: #480083;
+      text-decoration: none;
+      cursor: pointer;
+  }
+
+  form, .modal-text {
+      margin-top: 40px;
+  }
+
+  label {
+      color: white;
+  }
+
+  input[type="text"] {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      display: inline-block;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      margin-bottom: 20px;
+  }
+
+  input[type="submit"] {
+      width: 100%;
+      background-color: #4CAF50;
+      color: white;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+  }
+
+  input[type="submit"]:hover {
+      background-color: #45a049;
+  }
+
+  .modal-text p {
+    color: white;
+    margin-bottom: 15px;
+  }
   
 
 
