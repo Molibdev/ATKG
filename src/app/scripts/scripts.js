@@ -338,18 +338,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
   //User list fetch Users (back)
-//   async function fetchUsers() {
-//     const response = await fetch('http://localhost:3000/api/users');
-//     const data = await response.json();
-//     const usersList = document.getElementById('users-list');
-//     usersList.innerHTML = '';
-//     data.data.forEach(user => {
-//         const li = document.createElement('li')
-//         li.textContent = `${user.user} - ${user.score}`
-//         usersList.appendChild(li);
-//     });
-//   }
-
     async function fetchUsers() {
         try {
             const response = await fetch('http://localhost:3000/api/users');

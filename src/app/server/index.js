@@ -6,11 +6,11 @@ const cors = require('cors');
 const app = express();
 const port = 3000;
 
-// Configurar middleware para parsear JSON y habilitar CORS
+// Configuration of the middleware
 app.use(bodyParser.json());
 app.use(cors());
 
-// Conectar a la base de datos SQLite
+// Connection to database Sqlite
 let db = new sqlite3.Database('./database.db', (err) => {
   if (err) {
     console.error('Error al conectar a la base de datos', err.message);
@@ -19,7 +19,7 @@ let db = new sqlite3.Database('./database.db', (err) => {
   }
 });
 
-// Crear tabla de usuarios si no existe
+// Create users if this not exist
 db.run(`CREATE TABLE IF NOT EXISTS users (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   user TEXT NOT NULL,
@@ -27,7 +27,7 @@ db.run(`CREATE TABLE IF NOT EXISTS users (
   difficulty INTEGER NOT NULL CHECK (difficulty >= 1 AND difficulty <= 3)
 )`);
 
-// Ruta para obtener todos los usuarios
+// Obtain all users
 app.get('/api/users', (req, res) => {
   db.all('SELECT * FROM users', [], (err, rows) => {
     if (err) {
@@ -41,7 +41,7 @@ app.get('/api/users', (req, res) => {
   });
 });
 
-// Ruta para agregar un nuevo usuario
+// Create new user
 app.post('/api/users', (req, res) => {
   const { user, score, difficulty } = req.body;
   if (difficulty < 1 || difficulty > 3) {
@@ -60,7 +60,7 @@ app.post('/api/users', (req, res) => {
   });
 });
 
-// Iniciar el servidor
+// Initialize server
 app.listen(port, () => {
   console.log(`Servidor corriendo en http://localhost:${port}`);
 });
