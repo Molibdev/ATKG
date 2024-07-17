@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function() {
               easyButton.addEventListener('click', function() {
                   numberOfWords = Math.floor(Math.random() * (7 - 5 + 1) + 5); 
                   fetchWords(numberOfWords);
-                  initialGameDuration = 6; 
+                  initialGameDuration = 25; 
                   selectDifficulty = 1;
                   console.log('difficulty selected', selectDifficulty);
                   startCountdown();
