@@ -8,13 +8,14 @@ document.addEventListener('DOMContentLoaded', function() {
   const gameCountdown = document.getElementById('gameCountdown');
   const gameOver = document.getElementById('gameOver');
   const buttonRegiser = document.getElementById('btnRegister');
-  const buttonHelp = document.getElementById('buttonHelp');
-  const buttonInfo = document.getElementById('buttonInfo');
   const buttonReturn = document.getElementById('menu');
   const title = document.querySelector('.glitch');
   const dataTable = document.getElementById('dataTable');
   const dataTable2 = document.getElementById('dataTable2');
   const dataTable3 = document.getElementById('dataTable3');
+
+  let selectDifficulty = 0;
+  let matchScore = 0;
 
   //Hide others components we dont gonna use in the beginning of the cycle.
   gameBase.classList.add('hide');
@@ -32,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   //Modals functions
-        // Obtener todos los elementos necesarios
+        // Obtane all elements
         var modals = {
             register: document.getElementById("RecordRegister"),
             help: document.getElementById("help"),
@@ -47,17 +48,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
         var closeButtons = document.getElementsByClassName("close");
 
-        // Función para abrir un modal específico
+        // Function for open an specific modal
         function openModal(modal) {
             modal.style.display = "block";
         }
 
-        // Función para cerrar un modal específico
+        // Function for close an specific modal
         function closeModal(modal) {
             modal.style.display = "none";
         }
 
-        // Asignar eventos de clic a los botones de abrir modal
+        // Asign click events to modals buttons
         btns.register.onclick = function() {
             openModal(modals.register);
         }
@@ -68,14 +69,14 @@ document.addEventListener('DOMContentLoaded', function() {
             openModal(modals.info);
         }
 
-        // Asignar eventos de clic a los botones de cerrar modal
+        // Asign click events to modals close buttons
         for (var i = 0; i < closeButtons.length; i++) {
             closeButtons[i].onclick = function() {
                 closeModal(this.parentElement.parentElement);
             }
         }
 
-        // Cerrar el modal cuando el usuario hace clic fuera del modal
+        // Close the modal when user click out the modal
         window.onclick = function(event) {
             if (event.target.className === "modal") {
                 closeModal(event.target);
@@ -124,6 +125,8 @@ document.addEventListener('DOMContentLoaded', function() {
                   numberOfWords = Math.floor(Math.random() * (7 - 5 + 1) + 5); 
                   fetchWords(numberOfWords);
                   initialGameDuration = 6; 
+                  selectDifficulty = 1;
+                  console.log('difficulty selected', selectDifficulty);
                   startCountdown();
                   startGameCountdown(initialGameDuration);
               });
@@ -132,6 +135,7 @@ document.addEventListener('DOMContentLoaded', function() {
                   numberOfWords = Math.floor(Math.random() * (10 - 8 + 1) + 8); 
                   fetchWords(numberOfWords);
                   initialGameDuration = 21; 
+                  selectDifficulty = 2;
                   startCountdown();
                   startGameCountdown(initialGameDuration);
               });
@@ -140,6 +144,7 @@ document.addEventListener('DOMContentLoaded', function() {
                   numberOfWords = Math.floor(Math.random() * (15 - 11 + 1) + 11); 
                   fetchWords(numberOfWords);
                   initialGameDuration = 18; 
+                  selectDifficulty = 3;
                   startCountdown();
                   startGameCountdown(initialGameDuration);
               });
@@ -182,7 +187,6 @@ document.addEventListener('DOMContentLoaded', function() {
               }
 
               // Initialize matchScore for the match from the user (not depend from the difficulty).
-              let matchScore = 0;
               const matchScoreElement = document.getElementById('matchScore');
 
               // Fetch words from the API
@@ -334,10 +338,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
           }, 200);
       }
-  });
+    });
 
-
-  //User list fetch Users (back)
+    //User list fetch Users (back)
     async function fetchUsers() {
         try {
             const response = await fetch('http://localhost:3000/api/users');
@@ -345,20 +348,35 @@ document.addEventListener('DOMContentLoaded', function() {
                 throw new Error('Network response was not ok');
             }
             const data = await response.json();
-            const usersTableBody = document.getElementById('users-table-body');
-            usersTableBody.innerHTML = ''; // Limpiamos el contenido existente de la tabla
+
+            const easyUsersTableBody = document.getElementById('easy-users-table-body');
+            const mediumUsersTableBody = document.getElementById('medium-users-table-body');
+            const hardUsersTableBody = document.getElementById('hard-users-table-body');
+
+            //Clean tables
+            easyUsersTableBody.innerHTML = ''; 
+            mediumUsersTableBody.innerHTML = '';
+            hardUsersTableBody.innerHTML = '';
 
             data.data.forEach(user => {
                 const row = document.createElement('tr');
                 const userNameCell = document.createElement('td');
                 const scoreCell = document.createElement('td');
-
+    
                 userNameCell.textContent = user.user;
                 scoreCell.textContent = user.score;
-
+    
                 row.appendChild(userNameCell);
                 row.appendChild(scoreCell);
-                usersTableBody.appendChild(row);
+    
+                // Conditional for table difficulty
+                if (user.difficulty === 1) {
+                    easyUsersTableBody.appendChild(row);
+                } else if (user.difficulty === 2) {
+                    mediumUsersTableBody.appendChild(row);
+                } else if (user.difficulty === 3) {
+                    hardUsersTableBody.appendChild(row);
+                }
             });
         } catch (error) {
             console.error('Fetch error:', error);
@@ -366,27 +384,31 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
 
-  async function addUser() {
-    const userName = document.getElementById('user-input').value;
-    const userScore = document.getElementById('score-input').value;
-    const userDifficulty = document.getElementById('difficulty-input').value;
-    if (userName.trim() === '' || userScore.trim() === '' || userDifficulty.trim() === '') return;
+    async function addUser() {
+        const userName = document.getElementById('user-input').value;
+    
+        if (userName.trim() === '' || matchScore === 0 || selectDifficulty === 0) return;
+    
+        try {
+            const response = await fetch('http://localhost:3000/api/users', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ user: userName, score: matchScore, difficulty: selectDifficulty })
+            });
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            document.getElementById('user-input').value = '';
+            fetchUsers();
+        } catch (error) {
+            console.error('Fetch error:', error);
+        }
+    }
 
-    await fetch('http://localhost:3000/api/users', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ user: userName, score: parseInt(userScore, 10), difficulty: parseInt(userDifficulty, 10) })
-    });
+    document.getElementById('add-user-btn').addEventListener('click', addUser);
 
-    document.getElementById('user-input').value = '';
-    document.getElementById('score-input').value = '';
-    document.getElementById('difficulty-input').value = '';
     fetchUsers();
-  }
 
-  document.getElementById('add-user-btn').addEventListener('click', addUser);
-
-  fetchUsers();
 });
